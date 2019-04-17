@@ -1,0 +1,21 @@
+steps:
+  # Create docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hello-quarkus', '.']
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/hello-quarkus']
+
+  # Start up a cloud instance
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'beta', 'run', 'deploy',
+      'hello-quarkus',
+      '--image', 'gcr.io/$PROJECT_ID/hello-quarkus',
+      '--region', 'us-central1',
+      '--allow-unauthenticated'
+    ]
+
+# Image name
+images: ['gcr.io/$PROJECT_ID/hello-quarkus']
