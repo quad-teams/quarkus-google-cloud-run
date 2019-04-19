@@ -1,0 +1,26 @@
+#!/bin/bash
+gcloud projects create getting-started-5876769416
+
+gcloud config set project getting-started-5876769416
+
+gcloud config set run/region us-central1
+
+gcloud beta billing accounts list
+
+echo "> Enter the billing account ID you want to use:"
+
+read ACCOUNT_ID
+
+gcloud beta billing projects link getting-started-5876769416 --billing-account=$ACCOUNT_ID
+
+gcloud services enable cloudbuild.googleapis.com
+
+gcloud services enable run.googleapis.com
+
+PROJECT_NUMBER=`gcloud beta projects describe getting-started-5876769416 | grep 'projectNumber: ' | cut -d\   -f2 | tr -d \'`
+
+gcloud projects add-iam-policy-binding getting-started-5876769416 --member serviceAccount:$PROJECT_NUMBER@cloudbuild.gserviceaccount.com --role roles/run.admin
+
+gcloud projects add-iam-policy-binding getting-started-5876769416 --member serviceAccount:$PROJECT_NUMBER@cloudbuild.gserviceaccount.com --role roles/iam.serviceAccountUser
+
+gcloud builds submit --config cloudbuild.yaml .

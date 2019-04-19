@@ -1,21 +1,21 @@
 steps:
   # Create docker image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/quarkus-google-cloud-run', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/getting-started', '.']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/quarkus-google-cloud-run']
+    args: ['push', 'gcr.io/$PROJECT_ID/getting-started']
 
   # Start up a cloud instance
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [
       'beta', 'run', 'deploy',
-      'quarkus-google-cloud-run',
-      '--image', 'gcr.io/$PROJECT_ID/quarkus-google-cloud-run',
+      'getting-started',
+      '--image', 'gcr.io/$PROJECT_ID/getting-started',
       '--region', 'us-central1',
       '--allow-unauthenticated'
     ]
 
 # Image name
-images: ['gcr.io/$PROJECT_ID/quarkus-google-cloud-run']
+images: ['gcr.io/$PROJECT_ID/getting-started']
