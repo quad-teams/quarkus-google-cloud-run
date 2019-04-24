@@ -60,7 +60,7 @@ The `cloudify-maven-plugin` [maven plugin][6] will help turn your Quarkus applic
 Run the plugin like so:
 
 ```bash
-    mvn -N team.quad:cloudify-maven-plugin:0.1.0:gcloud-run
+mvn -N team.quad:cloudify-maven-plugin:0.1.0:gcloud-run
 ```
 
 It generates the following:
